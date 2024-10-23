@@ -25,7 +25,7 @@ function AddProduct() {
 
     return (
         <Container>
-            <h1>Add Product</h1>
+            <h1><center>Add Product</center></h1>
             <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formName">
                     <Form.Label>Product Name</Form.Label>
