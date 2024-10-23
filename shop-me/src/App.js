@@ -4,6 +4,7 @@ import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import AddProduct from './components/AddProduct';
 import ViewProduct from './components/ViewProduct';
+import UpdateProduct from './components/UpdateProduct'; // New component for updating products
 
 function App() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -20,7 +21,7 @@ function App() {
     return (
         <Router>
             <div>
-            <Navbar bg="dark" variant="dark" expand="lg">
+                <Navbar bg="dark" variant="dark" expand="lg">
                     <Container>
                         <Navbar.Brand href="/">SHOP ME</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -29,7 +30,7 @@ function App() {
                                 <Nav.Link href="/">Product List</Nav.Link>
                                 <Nav.Link href="/add">Add Product</Nav.Link>
                             </Nav>
-                            <Form inline className="d-flex me-2">
+                            <Form className="d-flex me-2">
                                 <Form.Control
                                     type="search"
                                     placeholder="Search"
@@ -47,8 +48,10 @@ function App() {
                     </Container>
                 </Navbar>
                 <Routes>
-                    <Route path="/" element={<ViewProduct/>} />
+                    <Route path="/" element={<ViewProduct />} />
                     <Route path="/add" element={<AddProduct />} />
+                    {/* Route for updating products */}
+                    <Route path="/update/:id" element={<UpdateProduct />} />
                 </Routes>
             </div>
         </Router>
