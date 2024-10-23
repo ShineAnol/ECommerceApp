@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 function AddProduct() {
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [stocks, setStocks] = useState('');
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -17,6 +19,7 @@ function AddProduct() {
                 setName('');
                 setPrice('');
                 setStocks('');
+                navigate('/'); // Redirect to product list after successful submission
             })
             .catch(error => {
                 console.error('Error adding product:', error);

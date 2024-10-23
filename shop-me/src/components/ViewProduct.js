@@ -1,9 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Button, Table } from 'react-bootstrap';
+import { Button, Container, Table } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
 
 function ViewProduct() {
     const [products, setProducts] = useState([]);
+    //const navigate = useNavigate(); 
 
     useEffect(() => {
         axios.get('http://localhost:8000/api/products')
@@ -15,19 +17,23 @@ function ViewProduct() {
             });
     }, []);
 
-    const handleUpdate = (id) => {
-        console.log('Update product with ID:', id);
-        // Implement update functionality here
-    };
-
     const handleDelete = (id) => {
-        console.log('Delete product with ID:', id);
-        // Implement delete functionality here
+        if (window.confirm('Are you sure you want to delete this product?')) {
+            axios.delete(`http://localhost:8000/api/products/${id}`)
+                .then(() => {
+                    // After successful deletion, refresh the product list
+                    setProducts(products.filter(product => product.id !== id));
+                    console.log('Product deleted:', id);
+                })
+                .catch(error => {
+                    console.error('Error deleting product:', error);
+                });
+        }
     };
 
     return (
-        <div>
-            <h1><center>Product List</center></h1>
+        <Container>
+            <h1 className="text-center my-4">Product List</h1>
             <Table striped bordered hover>
                 <thead>
                     <tr>
@@ -35,7 +41,7 @@ function ViewProduct() {
                         <th>Product Name</th>
                         <th>Price</th>
                         <th>Stocks</th>
-                        <th>Functions</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,18 +55,22 @@ function ViewProduct() {
                                 <Button variant="primary" className="me-2" onClick={() => console.log('Add to Cart')}>
                                     Add to Cart
                                 </Button>
-                                <Button variant="secondary" className="me-2" onClick={() => handleUpdate(product.id)}>
-                                    Update
-                                </Button>
+                                {/* Navigate to update product page */}
+                                <Link to={`/update/${product.id}`}>
+                                    <Button variant="secondary" className="me-2">
+                                        Update
+                                    </Button>
+                                </Link>
+                                {/* Delete product */}
                                 <Button variant="danger" onClick={() => handleDelete(product.id)}>
-                                    x
+                                    Delete
                                 </Button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </Table>
-        </div>
+        </Container>
     );
 }
 
